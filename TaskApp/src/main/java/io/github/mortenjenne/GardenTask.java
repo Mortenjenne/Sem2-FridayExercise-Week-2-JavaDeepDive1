@@ -3,9 +3,11 @@ package io.github.mortenjenne;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
+
 @Data
 @SuperBuilder
-public class GardenTask extends Task{
+public class GardenTask extends Task implements Serializable {
     String gardenLocation;
 
     @Override

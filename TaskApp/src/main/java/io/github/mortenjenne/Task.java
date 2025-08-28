@@ -3,11 +3,12 @@ package io.github.mortenjenne;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @SuperBuilder
-public class Task {
+public class Task implements Serializable {
     private String title;
     private String description;
     private LocalDate dueDate;

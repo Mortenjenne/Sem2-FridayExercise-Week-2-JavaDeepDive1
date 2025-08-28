@@ -1,14 +1,19 @@
 package io.github.mortenjenne;
 
+import io.github.mortenjenne.util.FileDataStore;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TaskList<T extends Task> implements Iterable<T> {
+public class TaskList<T extends Task> implements Serializable {
     private List<T> tasks;
+    FileDataStore<List<Task>> dataStore;
 
     public TaskList(){
         tasks = new ArrayList<>();
+        dataStore = new FileDataStore();
     }
 
     public void addTask(T addTask) {
@@ -61,8 +66,10 @@ public class TaskList<T extends Task> implements Iterable<T> {
 
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        return tasks.iterator();
+    public void saveTaskList(){
+
+
+        String filename = dataStore.save(tasks.);
+
     }
 }
