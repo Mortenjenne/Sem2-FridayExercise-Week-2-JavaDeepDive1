@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TaskList<T extends Task> {
+public class TaskList<T extends Task> implements Iterable<T> {
     private List<T> tasks;
 
     public TaskList(){
@@ -18,7 +18,7 @@ public class TaskList<T extends Task> {
     }
 
     public List<T> getTasks() {
-        return tasks;
+        return new ArrayList<>(tasks);
     }
 
     public List<T> filterTaskByTitle(String title) {
@@ -44,5 +44,25 @@ public class TaskList<T extends Task> {
         return tasks.stream()
                 .filter(task -> task.getDueDate().isEqual(LocalDate.now()))
                 .collect(Collectors.toList());
+    }
+
+    public List<T> getTasksThatAreOverdue() {
+        return tasks.stream()
+                .filter(task -> task.getDueDate().isBefore(LocalDate.now()))
+                .collect(Collectors.toList());
+    }
+
+    public void printTask(){
+        if(tasks != null && !tasks.isEmpty()){
+            tasks.forEach(System.out::println);
+        } else {
+            System.out.println("No tasks added");
+        }
+
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return tasks.iterator();
     }
 }

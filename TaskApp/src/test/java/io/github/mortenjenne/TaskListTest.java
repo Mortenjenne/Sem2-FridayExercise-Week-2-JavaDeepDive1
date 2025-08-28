@@ -16,6 +16,7 @@ class TaskListTest<T> {
     Task gardenTask2;
     Task gardenTask3;
     Task gardenTask4;
+    Task gardenTask5;
 
     @BeforeEach
     void setUp() {
@@ -50,16 +51,16 @@ class TaskListTest<T> {
                 .build();
 
         gardenTask4 = GardenTask.builder()
-                .title("Harvest fresh herbs")
-                .description("Pick basil, parsley, and thyme for tonight’s dinner")
-                .dueDate(LocalDate.now()) // Today's date
-                .gardenLocation("Herb garden")
+                .title("Trim the hedges")
+                .description("Shape and tidy up the hedges along the fence line")
+                .dueDate(LocalDate.now())
+                .gardenLocation("Side yard")
                 .build();
 
-        taskList.addTask(gardenTask4);
+        taskList.addTask(gardenTask1);
         taskList.addTask(gardenTask3);
         taskList.addTask(gardenTask2);
-        taskList.addTask(gardenTask1);
+        taskList.addTask(gardenTask4);
         taskList.addTask(gardenTask);
     }
 
@@ -105,6 +106,8 @@ class TaskListTest<T> {
         LocalDate expected = LocalDate.now();
         List<Task> tasksDueToday = taskList.filterByDueToday();
         LocalDate actual = tasksDueToday.get(0).getDueDate();
+
+        assertFalse(tasksDueToday.isEmpty(), "No tasks due today found");
         assertEquals(expected,actual);
 
     }
@@ -112,12 +115,27 @@ class TaskListTest<T> {
     @Test
     @DisplayName("Get tasks that are overdue..")
     void testGettingTasksThatAreOverDue(){
+        gardenTask5 = GardenTask.builder()
+                .title("Harvest fresh herbs")
+                .description("Pick basil, parsley, and thyme for tonight’s dinner")
+                .dueDate(LocalDate.now().minusDays(2))
+                .gardenLocation("Herb garden")
+                .build();
 
+        taskList.addTask(gardenTask5);
+
+        List<Task> taskOverDue = taskList.getTasksThatAreOverdue();
+        assertFalse(taskOverDue.isEmpty(), "No overdue tasks found");
+
+        for (Task task : taskOverDue) {
+            assertTrue(LocalDate.now().isAfter(task.getDueDate()), "Task is not overdue: " + task.getTitle());
+        }
     }
 
     @Test
     @DisplayName("Print the list of tasks.")
     void testPrintingTask(){
+        taskList.printTask();
 
     }
 

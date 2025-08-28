@@ -11,4 +11,9 @@ public class Task {
     private String title;
     private String description;
     private LocalDate dueDate;
+
+    @Override
+    public String toString() {
+        return String.format("Task: %s \nDescription: %s \nDue date: %s\n",title,description,dueDate);
+    }
 }
