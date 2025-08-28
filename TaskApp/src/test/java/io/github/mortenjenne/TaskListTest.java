@@ -5,9 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,54 +13,99 @@ class TaskListTest<T> {
     TaskList<Task> taskList;
     Task gardenTask;
     Task gardenTask1;
+    Task gardenTask2;
+    Task gardenTask3;
+    Task gardenTask4;
 
     @BeforeEach
     void setUp() {
         taskList = new TaskList<>();
 
-        gardenTask = Task.builder()
+        gardenTask = GardenTask.builder()
                 .title("Water the plants")
                 .description("Use the hose to water all garden beds")
                 .dueDate(LocalDate.now().plusDays(1))
+                .gardenLocation("Whole garden")
                 .build();
 
-        gardenTask1 = Task.builder()
+        gardenTask1 = GardenTask.builder()
                 .title("Build raised garden bed")
                 .description("Construct a new raised bed in the backyard")
                 .dueDate(LocalDate.now().plusDays(3))
+                .gardenLocation("Backyard")
                 .build();
+
+        gardenTask2 = GardenTask.builder()
+                .title("Plant new herbs")
+                .description("Add basil, thyme, and parsley to the herb garden")
+                .dueDate(LocalDate.now().plusDays(2))
+                .gardenLocation("Herb garden")
+                .build();
+
+        gardenTask3 = GardenTask.builder()
+                .title("Mow the lawn")
+                .description("Cut the grass evenly and edge the borders for a clean look")
+                .dueDate(LocalDate.now().plusDays(5))
+                .gardenLocation("Front and backyard")
+                .build();
+
+        gardenTask4 = GardenTask.builder()
+                .title("Harvest fresh herbs")
+                .description("Pick basil, parsley, and thyme for tonight’s dinner")
+                .dueDate(LocalDate.now()) // Today's date
+                .gardenLocation("Herb garden")
+                .build();
+
+        taskList.addTask(gardenTask4);
+        taskList.addTask(gardenTask3);
+        taskList.addTask(gardenTask2);
+        taskList.addTask(gardenTask1);
+        taskList.addTask(gardenTask);
     }
 
     @Test
     @DisplayName("Add tasks to the list")
     void testAddingTask(){
-        int expected = 1;
-        taskList.addTask(gardenTask);
+        int expected = 5;
         int actual = taskList.getTasks().size();
         assertEquals(expected,actual);
     }
 
     @Test
-    @DisplayName("Filter tasks based on a keyword in the title or description.")
-    void testFilterByTitleOrDescription(){
-        taskList.addTask(gardenTask);
-        taskList.addTask(gardenTask1);
-
-        String expected = gardenTask1.getTitle();
-        List<Task> filteredByTitle = taskList.filterTaskByTitle("Water the plants");
+    @DisplayName("Filter tasks based on a keyword in the title.")
+    void testFilterByTitle(){
+        String expected = gardenTask.getTitle();
+        List<Task> filteredByTitle = taskList.filterTaskByTitle("Water");
         String actual = filteredByTitle.get(0).getTitle();
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    @DisplayName("Filter tasks based on a keyword in the description.")
+    void testFilterByDescription(){
+        String expected = gardenTask1.getDescription();
+        List<Task> filteredByDescription = taskList.filterTaskByDescription("raised");
+            String actual = filteredByDescription.get(0).getDescription();
         assertEquals(expected,actual);
     }
 
     @Test
     @DisplayName("Sort tasks by due date.")
     void testSortingbyDueDate(){
+        LocalDate expected = LocalDate.now();
+        List<Task> sortedByDueDate = taskList.sortByDueDate();
+        LocalDate actual = sortedByDueDate.get(0).getDueDate();
+        assertEquals(expected,actual);
 
     }
 
     @Test
     @DisplayName("Get tasks that are due today.")
-    void testGetingTaskThatAreDueToday(){
+    void testGettingTaskThatAreDueToday(){
+        LocalDate expected = LocalDate.now();
+        List<Task> tasksDueToday = taskList.filterByDueToday();
+        LocalDate actual = tasksDueToday.get(0).getDueDate();
+        assertEquals(expected,actual);
 
     }
 
