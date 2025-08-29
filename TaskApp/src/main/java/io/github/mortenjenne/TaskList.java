@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class TaskList<T extends Task> implements Serializable {
     private List<T> tasks;
-    FileDataStore<List<Task>> dataStore;
+    FileDataStore<List<T>> dataStore;
 
     public TaskList(){
         tasks = new ArrayList<>();
@@ -74,10 +74,15 @@ public class TaskList<T extends Task> implements Serializable {
         tasks.remove(index);
     }
 
-
     public void saveTaskList(){
-        //String filename = dataStore.save(tasks);
+        String filename = dataStore.save(tasks);
+    }
 
+    public void loadTaskList(String filename) {
+        List<T> loaded = dataStore.load(filename);
+        if (loaded != null) {
+            tasks = loaded;
+        }
     }
 
     public T getTask(int index) {
