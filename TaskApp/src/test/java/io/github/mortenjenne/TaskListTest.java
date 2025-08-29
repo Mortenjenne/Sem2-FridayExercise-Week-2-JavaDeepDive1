@@ -25,7 +25,7 @@ class TaskListTest<T> {
         gardenTask = GardenTask.builder()
                 .title("Water the plants")
                 .description("Use the hose to water all garden beds")
-                .dueDate(LocalDate.now().plusDays(1))
+                .dueDate(LocalDate.now().plusMonths(1).plusDays(2))
                 .gardenLocation("Whole garden")
                 .build();
 
@@ -95,6 +95,16 @@ class TaskListTest<T> {
     void testSortingbyDueDate(){
         LocalDate expected = LocalDate.now();
         List<Task> sortedByDueDate = taskList.sortByDueDate();
+        LocalDate actual = sortedByDueDate.get(0).getDueDate();
+        assertEquals(expected,actual);
+
+    }
+
+    @Test
+    @DisplayName("Sort tasks by due date reversed.")
+    void testSortingbyDueDateReversed(){
+        LocalDate expected = LocalDate.now().plusMonths(1).plusDays(2);
+        List<Task> sortedByDueDate = taskList.sortByDueDateReversed();
         LocalDate actual = sortedByDueDate.get(0).getDueDate();
         assertEquals(expected,actual);
 

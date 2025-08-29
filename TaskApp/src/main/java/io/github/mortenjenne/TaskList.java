@@ -46,6 +46,12 @@ public class TaskList<T extends Task> implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    public List<T> sortByDueDateReversed() {
+        return tasks.stream()
+                .sorted(Comparator.comparing(Task::getDueDate).reversed())
+                .collect(Collectors.toList());
+    }
+
     public List<T> filterByDueToday() {
         return tasks.stream()
                 .filter(task -> task.getDueDate().isEqual(LocalDate.now()))
@@ -62,7 +68,7 @@ public class TaskList<T extends Task> implements Serializable {
         if (tasks != null && !tasks.isEmpty()) {
             int counter = 1;
             for (T task : tasks) {
-                System.out.println(counter + ":\n " + task);
+                System.out.println(counter + ":\n" + task);
                 counter++;
             }
         } else {
