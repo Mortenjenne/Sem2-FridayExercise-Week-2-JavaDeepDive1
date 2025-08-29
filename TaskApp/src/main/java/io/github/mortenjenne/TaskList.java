@@ -5,6 +5,7 @@ import io.github.mortenjenne.util.FileDataStore;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 
 public class TaskList<T extends Task> implements Serializable {
@@ -57,19 +58,29 @@ public class TaskList<T extends Task> implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public void printTask(){
-        if(tasks != null && !tasks.isEmpty()){
-            tasks.forEach(System.out::println);
+    public void printTask() {
+        if (tasks != null && !tasks.isEmpty()) {
+            int counter = 1;
+            for (T task : tasks) {
+                System.out.println(counter + ":\n " + task);
+                counter++;
+            }
         } else {
             System.out.println("No tasks added");
         }
+    }
+
+    public void removeTask(int index){
+        tasks.remove(index);
+    }
+
+
+    public void saveTaskList(){
+        //String filename = dataStore.save(tasks);
 
     }
 
-    public void saveTaskList(){
-
-
-        String filename = dataStore.save(tasks.);
-
+    public T getTask(int index) {
+        return tasks.get(index);
     }
 }
