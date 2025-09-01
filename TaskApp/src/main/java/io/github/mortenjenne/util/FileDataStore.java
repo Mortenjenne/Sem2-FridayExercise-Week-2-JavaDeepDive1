@@ -4,13 +4,12 @@ import java.io.*;
 import java.lang.reflect.Type;
 
 public class FileDataStore<T> implements DataStore<T> {
+
+    private static final String fileName = "tasks.ser";
     @Override
     public String save(T obj) {
         Type typeOf = obj.getClass();
-        String fileName = typeOf.toString();
-        String fileSuffix = (java.time.LocalDateTime.now()).format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"));
-        fileName = fileName + fileSuffix + ".ser";
-        try {
+                try {
             File file = new File(fileName);
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fos);

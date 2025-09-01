@@ -15,8 +15,9 @@ public class UserInterface {
         System.out.println("ToDoApp");
         System.out.println("1) Show your task list");
         System.out.println("2) Add task");
-        System.out.println("3) Mark task as done");
-        System.out.println("4) Remove task");
+        System.out.println("3) Search");
+        System.out.println("4) Tasks that are overdue");
+        System.out.println("5) Remove task");
         System.out.println("x) Quit");
     }
 

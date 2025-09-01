@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class TaskList<T extends Task> implements Serializable {
     private List<T> tasks;
     FileDataStore<List<T>> dataStore;
+    private final String fileName = "tasks.ser";
 
     public TaskList(){
         tasks = new ArrayList<>();
@@ -84,8 +85,8 @@ public class TaskList<T extends Task> implements Serializable {
         String filename = dataStore.save(tasks);
     }
 
-    public void loadTaskList(String filename) {
-        List<T> loaded = dataStore.load(filename);
+    public void loadTaskList() {
+        List<T> loaded = dataStore.load(fileName);
         if (loaded != null) {
             tasks = loaded;
         }

@@ -4,11 +4,7 @@ import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
-        //new TaskManager().start();
-        TaskList<Task> taskList = new TaskList();
-        taskList.loadTaskList("class java.util.ArrayList2025-08-29_11-13-25.ser");
-        taskList.printTask();
-
+        new TaskManager().start();
 /*
         Task gardenTask = GardenTask.builder()
                 .title("Water the plants")

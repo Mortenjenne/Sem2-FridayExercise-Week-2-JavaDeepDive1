@@ -10,11 +10,10 @@ public class TaskManager {
         private UserInterface ui;
         private List<Task> toDoList;
         private boolean appRunning;
-        private final String path = "data/todo.csv";
-        private final String header = "Description, Done";
-
+    private final String header = "Description, Done";
         public TaskManager() {
             this.taskList = new TaskList();
+            this.taskList.loadTaskList();
             toDoList = new ArrayList<>();
             this.ui = new UserInterface();
             this.appRunning = true;
@@ -34,9 +33,12 @@ public class TaskManager {
                         addToDo();
                         break;
                     case "3":
-                        //markToDoAsDone();
+                        search();
                         break;
                     case "4":
+                        showOverDueTask();
+                        break;
+                    case "5":
                         removeTask();
                         break;
                     case "x":
@@ -89,6 +91,45 @@ public class TaskManager {
         );
 
         ui.printMessage("Task added: " + title + " (Due: " + parsedDate + ")");
+    }
+
+        private void search() {
+            ui.printMessage("Search options:");
+            ui.printMessage("1) Search by title");
+            ui.printMessage("2) Search by description");
+            String choice = ui.readInput("Choose search type: ");
+
+            switch (choice) {
+                case "1":
+                    String title = ui.readInput("Enter title keyword: ");
+                    List<Task> titleResults = taskList.filterTaskByTitle(title);
+                    if (titleResults.isEmpty()) {
+                        ui.printMessage("No tasks found with title containing: " + title);
+                    } else {
+                        titleResults.forEach(System.out::println);
+                    }
+                    break;
+
+                case "2":
+                    String description = ui.readInput("Enter description keyword: ");
+                    List<Task> descResults = taskList.filterTaskByDescription(description);
+                    if (descResults.isEmpty()) {
+                        ui.printMessage("No tasks found with description containing: " + description);
+                    } else {
+                        descResults.forEach(System.out::println);
+                    }
+                    break;
+
+                default:
+                    ui.printMessage("Invalid choice.");
+                    break;
+            }
+
+    }
+
+    private void showOverDueTask(){
+            List<Task> overDueTask = taskList.getTasksThatAreOverdue();
+            overDueTask.forEach(task -> System.out.println(task));
     }
 
         private void removeTask(){
